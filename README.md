@@ -18,18 +18,15 @@ The ledger is append-only and enforces data integrity at the database level.
 
 - Django — mature ORM & transaction management
 - Django REST Framework — clean API layer
+- SQLite (local development simplicity)
 
-
-PostgreSQL was chosen to ensure proper transactional integrity and database-level idempotency constraints.
-
----
 
 ## Architecture Decisions
 
-### 1. Wallet ID
+###  Wallet ID
 UUID is used as the primary key to avoid predictable identifiers and to reflect production-grade API design.
 
-### 2. Balance Strategy
+###  Balance Strategy
 The wallet stores a `balance` field for efficient reads.  
 Balance updates are protected using:
 
@@ -38,7 +35,41 @@ Balance updates are protected using:
 
 This prevents race conditions during concurrent credits.
 
-### 3. Idempotency
-Idempotency is enforced at the database level via:
 
-Unique constraint:
+## Setup Instructions
+1️⃣ Clone Repository
+git clone <your-repo-url>
+cd credit_wallet
+
+2️⃣ Create Virtual Environment
+python -m venv myenv
+
+
+Activate:
+Windows:
+myenv\Scripts\activate
+
+Mac/Linux:
+source myenv/bin/activate
+
+3️⃣ Install Dependencies
+
+If using requirements file:
+pip install -r requirements.txt
+
+
+Or manually:
+pip install django djangorestframework
+
+4️⃣ Apply Migrations
+python manage.py migrate
+
+5️⃣ Run Development Server
+python manage.py runserver
+
+
+Server runs at:
+http://127.0.0.1:8000/
+
+Running Tests
+python manage.py test
